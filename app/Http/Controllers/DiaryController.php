@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Diary;
 use App\Http\Requests\CreateDiary;
+use App\Http\Requests\UpdateDiary;
 
 class DiaryController extends Controller
 {
@@ -31,10 +32,34 @@ class DiaryController extends Controller
         $diary->save();
         return redirect()->route('diary.index');
     }
-    public function destroy($id)
+    // getバージョン
+    // public function destroy(int $id)
+    // {   
+    //     $diary = new Diary();
+    //     $diary->destroy($id);
+    //     return redirect()->route('diary.index');
+    // }
+
+    // deleteバージョン
+    public function destroy(int $id)
     {   
         $diary = new Diary();
         $diary->destroy($id);
         return redirect()->route('diary.index');
+    }
+    public function edit(int $id)
+    {
+        $diary = Diary::find($id);
+        return view('diaries.edit', ['diary' => $diary]);
+    }
+    public function update(UpdateDiary $request, int $id)
+    {
+        $diary = new Diary();
+        $diary = Diary::find($id);
+        $diary->title = $request->title;
+        $diary->body = $request->body;
+        $diary->save();
+        return redirect()->route('diary.index');
+
     }
 }
