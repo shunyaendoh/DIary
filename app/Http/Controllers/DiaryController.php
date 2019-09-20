@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Diary;
 use App\Http\Requests\CreateDiary;
 use App\Http\Requests\UpdateDiary;
+use Carbon\Carbon;
 
 class DiaryController extends Controller
 {
@@ -58,6 +59,7 @@ class DiaryController extends Controller
         $diary = Diary::find($id);
         $diary->title = $request->title;
         $diary->body = $request->body;
+        $diary->created_at = Carbon::now();
         $diary->save();
         return redirect()->route('diary.index');
 
